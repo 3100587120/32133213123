@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在跳转...</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #333;
+        }
+        .tip { font-size: 18px; margin-bottom: 20px; }
+        .link { color: #e67e22; text-decoration: none; font-size: 16px; }
+        .wechat-tip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="wechat-tip">请点击右上角 → 在浏览器中打开</div>
+    <p class="tip">正在跳转到下载页...</p>
+    <a href="" class="link" id="manualLink">如果没有自动跳转，请点击这里</a>
+
+    <script>
+        // 各平台下载地址
+        const iosUrl = 'https://apps.apple.com/cn/app/%E5%8E%9F%E7%A5%9E/id1515948980';
+        const androidUrl = 'https://ys.mihoyo.com/m/';
+        const pcUrl = 'https://ys.mihoyo.com/';
+
+        const ua = navigator.userAgent;
+        let targetUrl = pcUrl;
+
+        // 判断设备系统
+        if (/iPhone|iPad|iPod/i.test(ua)) {
+            targetUrl = iosUrl;
+        } else if (/Android/i.test(ua)) {
+            targetUrl = androidUrl;
+        }
+
+        // 设置手动跳转链接
+        document.getElementById('manualLink').href = targetUrl;
+
+        // 微信环境提示
+        const isWechat = /MicroMessenger/i.test(ua);
+        if (isWechat) {
+            document.querySelector('.wechat-tip').style.display = 'block';
+        }
+
+        // 1秒后自动跳转
+        setTimeout(() => {
+            window.location.href = targetUrl;
+        }, 1000);
+    </script>
+</body>
+</html>
